@@ -3,84 +3,566 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Theme SoundCloud Embeds</title>
+    <title>DJ Christie | Official Website</title>
+    <meta name="description" content="DJ Christie — Electro, Funk, Hip-Hop. Official website featuring mixes, upcoming events, and booking info.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 70px; }
         body {
-            background-color: #121212;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            font-family: 'Raleway', 'Segoe UI', sans-serif;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, h5 { font-family: 'Oswald', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
+        a { color: inherit; text-decoration: none; transition: color 0.3s; }
+        img { max-width: 100%; display: block; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; }
+
+        /* ===== ACCENT COLORS ===== */
+        :root {
+            --accent: #e63946;
+            --accent-dark: #b82e3a;
+            --gold: #f0a500;
+            --dark-bg: #0a0a0a;
+            --card-bg: #141414;
+            --section-bg: #111111;
         }
 
+        /* ===== NAVIGATION ===== */
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            background: rgba(10, 10, 10, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.4s, box-shadow 0.4s;
+        }
+        .navbar.scrolled { background: rgba(10, 10, 10, 0.98); box-shadow: 0 2px 30px rgba(0,0,0,0.6); }
+        .navbar .container { display: flex; align-items: center; justify-content: space-between; height: 70px; }
+        .nav-logo { font-family: 'Oswald', sans-serif; font-size: 1.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; color: #fff; }
+        .nav-logo span { color: var(--accent); }
+        .nav-links { display: flex; list-style: none; gap: 30px; }
+        .nav-links a { font-size: 0.85rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1.5px; color: #bbb; transition: color 0.3s; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 5px; }
+        .nav-toggle span { display: block; width: 25px; height: 2px; background: #fff; transition: transform 0.3s, opacity 0.3s; }
+        .nav-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+        .nav-toggle.open span:nth-child(2) { opacity: 0; }
+        .nav-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a0f 30%, #0a0a0a 60%, #0f0a1a 100%);
+            overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(230, 57, 70, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(138, 43, 226, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 60% 80%, rgba(240, 165, 0, 0.06) 0%, transparent 50%);
+        }
+        .hero-particles {
+            position: absolute; inset: 0; overflow: hidden;
+        }
+        .hero-particles span {
+            position: absolute; border-radius: 50%; background: rgba(255,255,255,0.06);
+            animation: float-particle linear infinite;
+        }
+        @keyframes float-particle {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+        .hero-content {
+            position: relative; z-index: 2; text-align: center; padding: 0 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+        .hero-subtitle {
+            font-family: 'Raleway', sans-serif; font-size: 1rem; font-weight: 400;
+            letter-spacing: 6px; text-transform: uppercase; color: var(--accent);
+            margin-bottom: 20px;
+        }
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 7rem); line-height: 1.05; color: #fff;
+            margin-bottom: 20px; letter-spacing: 4px;
+        }
+        .hero-title em { font-style: normal; color: var(--accent); }
+        .hero-tagline {
+            font-size: 1.15rem; color: #aaa; max-width: 600px; margin: 0 auto 40px;
+            font-weight: 300; letter-spacing: 1px;
+        }
+        .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            display: inline-block; padding: 14px 36px; font-family: 'Oswald', sans-serif;
+            font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;
+            border: 2px solid var(--accent); border-radius: 0; cursor: pointer;
+            transition: all 0.35s; position: relative; overflow: hidden;
+        }
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(230, 57, 70, 0.3); }
+        .btn-outline { background: transparent; color: #fff; }
+        .btn-outline:hover { background: #fff; color: #0a0a0a; border-color: #fff; transform: translateY(-2px); }
+        .hero-scroll {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            z-index: 2; animation: bounceDown 2s infinite;
+        }
+        .hero-scroll a { color: rgba(255,255,255,0.4); font-size: 1.4rem; }
+        @keyframes bounceDown { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(10px); } }
+
+        /* ===== SECTION STYLES ===== */
+        section { padding: 100px 0; }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-size: clamp(2rem, 4vw, 3rem); color: #fff; margin-bottom: 15px; }
+        .section-header p { color: #888; font-size: 1.05rem; max-width: 550px; margin: 0 auto; font-weight: 300; }
+        .section-header .accent-line { width: 50px; height: 3px; background: var(--accent); margin: 20px auto 0; }
+
+        /* ===== ABOUT ===== */
+        #about { background: var(--section-bg); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .about-image {
+            position: relative; aspect-ratio: 3/4; background: linear-gradient(135deg, var(--accent), #8a2be2);
+            border-radius: 4px; overflow: hidden;
+        }
+        .about-image::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(230,57,70,0.6), rgba(138,43,226,0.6));
+            display: flex; align-items: center; justify-content: center;
+        }
+        .about-image-icon {
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            z-index: 1; font-size: 5rem; color: rgba(255,255,255,0.3);
+        }
+        .about-text h3 { font-size: 2rem; color: #fff; margin-bottom: 20px; }
+        .about-text h3 span { color: var(--accent); }
+        .about-text p { color: #aaa; margin-bottom: 18px; font-weight: 300; }
+        .about-stats { display: flex; gap: 40px; margin-top: 30px; }
+        .stat { text-align: center; }
+        .stat-number { font-family: 'Oswald', sans-serif; font-size: 2.5rem; color: var(--accent); font-weight: 700; }
+        .stat-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: #777; }
+
+        /* ===== MUSIC ===== */
+        #music { background: var(--dark-bg); }
+        .music-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
         .player-container {
-            width: 100%;
-            max-width: 800px;
-            margin-bottom: 30px;
+            background: var(--card-bg); border-radius: 8px; padding: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
+        .player-container:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+        .player-container iframe { border-radius: 6px; box-shadow: none; }
+        .track-info { font-size: 0.8rem; color: #888; margin-top: 12px; text-align: center; }
+        .track-info a { color: #aaa; transition: color 0.3s; }
+        .track-info a:hover { color: var(--accent); }
 
-        iframe {
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+        /* ===== EVENTS ===== */
+        #events { background: var(--section-bg); }
+        .events-list { max-width: 900px; margin: 0 auto; }
+        .event-item {
+            display: flex; align-items: center; gap: 30px;
+            padding: 30px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+            transition: transform 0.3s;
         }
+        .event-item:hover { transform: translateX(8px); }
+        .event-date {
+            min-width: 80px; text-align: center; padding: 15px;
+            background: var(--card-bg); border-left: 3px solid var(--accent); border-radius: 4px;
+        }
+        .event-date .day { font-family: 'Oswald', sans-serif; font-size: 2rem; color: #fff; font-weight: 700; line-height: 1; }
+        .event-date .month { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); }
+        .event-info { flex: 1; }
+        .event-info h4 { font-size: 1.15rem; color: #fff; margin-bottom: 5px; letter-spacing: 1px; }
+        .event-info p { color: #777; font-size: 0.9rem; }
+        .event-info p i { margin-right: 6px; color: var(--accent); }
+        .event-action .btn { padding: 10px 24px; font-size: 0.75rem; }
 
-        .track-info {
-            font-size: 12px;
-            color: #bbb;
-            margin-top: 8px;
+        /* ===== GALLERY ===== */
+        #gallery { background: var(--dark-bg); }
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+        }
+        .gallery-item {
+            position: relative; aspect-ratio: 1; overflow: hidden; border-radius: 4px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            cursor: pointer;
+        }
+        .gallery-item::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(230,57,70,0.3), rgba(138,43,226,0.3));
+            opacity: 0; transition: opacity 0.4s; z-index: 1;
+        }
+        .gallery-item:hover::before { opacity: 1; }
+        .gallery-item .gallery-icon {
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; color: rgba(255,255,255,0.15);
+            transition: color 0.4s, transform 0.4s; z-index: 2;
+        }
+        .gallery-item:hover .gallery-icon { color: rgba(255,255,255,0.8); transform: scale(1.1); }
+        .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+
+        /* ===== CONTACT ===== */
+        #contact { background: var(--section-bg); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+        .contact-info h3 { font-size: 1.8rem; color: #fff; margin-bottom: 20px; }
+        .contact-info p { color: #888; margin-bottom: 30px; font-weight: 300; }
+        .contact-detail { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .contact-detail i { font-size: 1.2rem; color: var(--accent); width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; }
+        .contact-detail span { color: #bbb; font-size: 0.95rem; }
+        .contact-form { display: flex; flex-direction: column; gap: 18px; }
+        .contact-form input,
+        .contact-form textarea {
+            background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08); color: #fff;
+            padding: 14px 18px; font-family: 'Raleway', sans-serif; font-size: 0.95rem;
+            border-radius: 4px; transition: border-color 0.3s; outline: none;
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus { border-color: var(--accent); }
+        .contact-form textarea { min-height: 130px; resize: vertical; }
+        .contact-form .btn { border: none; cursor: pointer; text-align: center; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+        /* ===== SOCIAL LINKS ===== */
+        .social-links { display: flex; gap: 15px; margin-top: 30px; }
+        .social-links a {
+            width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 50%;
+            color: #aaa; font-size: 1rem; transition: all 0.3s;
+        }
+        .social-links a:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: translateY(-3px); }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #050505; padding: 40px 0; border-top: 1px solid rgba(255,255,255,0.05);
             text-align: center;
         }
+        .footer p { color: #555; font-size: 0.85rem; letter-spacing: 1px; }
+        .footer a { color: var(--accent); }
 
-        a {
-            color: #ccc;
-            text-decoration: none;
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
 
-        a:hover {
-            text-decoration: underline;
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 992px) {
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .about-image { max-width: 400px; margin: 0 auto; }
+            .music-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+            .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+            .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: rgba(10,10,10,0.98); padding: 20px 0; gap: 0; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .nav-links.open { display: flex; }
+            .nav-links li { padding: 12px 0; }
+            .nav-toggle { display: flex; }
+            .event-item { flex-direction: column; text-align: center; gap: 15px; }
+            .event-action { width: 100%; }
+            .event-action .btn { width: 100%; text-align: center; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 1; }
+            .about-stats { justify-content: center; }
+            .form-row { grid-template-columns: 1fr; }
+            section { padding: 70px 0; }
+        }
+        @media (max-width: 480px) {
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .btn { width: 100%; max-width: 280px; text-align: center; }
         }
     </style>
 </head>
 <body>
-<!-- 
-    Track 1 
-    <div class="player-container">
-        <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1712258577&color=%23ff5500&auto_play=false&visual=true"></iframe>
-        <div class="track-info"><a href="https://soundcloud.com/christieontheair" target="_blank">CHRISTIELOVE</a> · <a href="https://soundcloud.com/christieontheair/millennialelectrofunkodyssey-junglekaytranadachannel-tresapaakmore" target="_blank">MillennialElectroFunkOdyssey (Jungle+Kaytranada+Channel Tres+A.Paak+More)</a></div>
-    </div>
 
-   
-    <div class="player-container">
-        <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/800249719&color=%23ff5500&auto_play=false&visual=true"></iframe>
-        <div class="track-info"><a href="https://soundcloud.com/christieontheair" target="_blank">CHRISTIELOVE</a> · <a href="https://soundcloud.com/christieontheair/bay-area-slaps-yay-area" target="_blank">Bay Area Slaps - Yay Area! (and a few other tracks that made the cut!)</a></div>
-    </div>
- -->
-    <!-- Track 3 -->
-    <div class="player-container">
-        <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1731400716&color=ff5500"></iframe>
-        <div class="track-info"><a href="https://soundcloud.com/heartofgolddjs" target="_blank">HeartofGoldDJs</a> · <a href="https://soundcloud.com/heartofgolddjs/turn-down-for-what" target="_blank">TURN DOWN FOR WHAT</a></div>
-    </div>
+    <!-- ===== NAVIGATION ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#hero" class="nav-logo">DJ <span>Christie</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#music">Music</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" role="button" tabindex="0">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
 
-    <!-- Track 4 -->
-    <div class="player-container">
-        <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/686779069&color=24a1b0"></iframe>
-        <div class="track-info"><a href="https://soundcloud.com/heartofgolddjs" target="_blank">HeartofGoldDJs</a> · <a href="https://soundcloud.com/heartofgolddjs/dj-christie-james-boss-chicks-and-drake" target="_blank">DJ Christie Live - Boss Chicks(and Drake)</a></div>
-    </div>
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+        <div class="hero-particles" id="particles" aria-hidden="true"></div>
+        <div class="hero-content">
+            <p class="hero-subtitle">Welcome to the Experience</p>
+            <h1 class="hero-title">DJ <em>Christie</em></h1>
+            <p class="hero-tagline">Electro &bull; Funk &bull; Hip-Hop &mdash; Curating unforgettable moments through music</p>
+            <div class="hero-buttons">
+                <a href="#music" class="btn btn-primary">Listen Now</a>
+                <a href="#contact" class="btn btn-outline">Book a Show</a>
+            </div>
+        </div>
+        <div class="hero-scroll"><a href="#about"><i class="fa-solid fa-chevron-down"></i></a></div>
+    </section>
 
-    <!-- Track 5 -->
-    <div class="player-container">
-        <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1712880003&color=ff5500"></iframe>
-        <div class="track-info"><a href="https://soundcloud.com/heartofgolddjs" target="_blank">HeartofGoldDJs</a> · <a href="https://soundcloud.com/heartofgolddjs/christies-millennialelectrofunkodyssey" target="_blank">Christie's MillennialElectroFunkOdyssey</a></div>
-    </div>
+    <!-- ===== ABOUT ===== -->
+    <section id="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image reveal">
+                    <div class="about-image-icon"><i class="fa-solid fa-headphones"></i></div>
+                </div>
+                <div class="about-text reveal">
+                    <h3>The Story of <span>Christie</span></h3>
+                    <p>
+                        DJ Christie is an electrifying force in the music scene, seamlessly blending electro, funk, and hip-hop into sets that move crowds from the first beat to the last drop. Known for genre-defying mixes and an infectious energy behind the decks, Christie has become a go-to name for events that demand nothing less than extraordinary.
+                    </p>
+                    <p>
+                        From packed nightclubs to massive festivals, private events to corporate galas, every performance is a carefully crafted journey. With a deep love for music spanning decades of sound and a keen ear for what makes people move, DJ Christie delivers experiences that linger long after the music stops.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <div class="stat-number">200+</div>
+                            <div class="stat-label">Shows</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Mixes</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">10+</div>
+                            <div class="stat-label">Years</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- Track 6 -->
-    <div class="player-container">
-        <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/793564837&color=24a1b0"></iframe>
-        <div class="track-info"><a href="https://soundcloud.com/christieontheair" target="_blank">CHRISTIELOVE</a> · <a href="https://soundcloud.com/christieontheair/my-sangeet-is-lit-w-christielive" target="_blank">MY SANGEET IS LIT!!! W/ @CHRISTIELIVE</a></div>
-    </div>
+    <!-- ===== MUSIC ===== -->
+    <section id="music">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Latest Mixes</h2>
+                <p>Stream the latest sets and mixes &mdash; crafted to keep you moving</p>
+                <div class="accent-line"></div>
+            </div>
+            <div class="music-grid">
+                <!-- Track 1 -->
+                <div class="player-container reveal">
+                    <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1731400716&color=ff5500" title="TURN DOWN FOR WHAT by HeartofGoldDJs"></iframe>
+                    <div class="track-info"><a href="https://soundcloud.com/heartofgolddjs" target="_blank" rel="noopener">HeartofGoldDJs</a> &middot; <a href="https://soundcloud.com/heartofgolddjs/turn-down-for-what" target="_blank" rel="noopener">TURN DOWN FOR WHAT</a></div>
+                </div>
+                <!-- Track 2 -->
+                <div class="player-container reveal">
+                    <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/686779069&color=24a1b0" title="DJ Christie Live - Boss Chicks and Drake"></iframe>
+                    <div class="track-info"><a href="https://soundcloud.com/heartofgolddjs" target="_blank" rel="noopener">HeartofGoldDJs</a> &middot; <a href="https://soundcloud.com/heartofgolddjs/dj-christie-james-boss-chicks-and-drake" target="_blank" rel="noopener">DJ Christie Live - Boss Chicks (and Drake)</a></div>
+                </div>
+                <!-- Track 3 -->
+                <div class="player-container reveal">
+                    <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1712880003&color=ff5500" title="Christie's MillennialElectroFunkOdyssey"></iframe>
+                    <div class="track-info"><a href="https://soundcloud.com/heartofgolddjs" target="_blank" rel="noopener">HeartofGoldDJs</a> &middot; <a href="https://soundcloud.com/heartofgolddjs/christies-millennialelectrofunkodyssey" target="_blank" rel="noopener">Christie&rsquo;s MillennialElectroFunkOdyssey</a></div>
+                </div>
+                <!-- Track 4 -->
+                <div class="player-container reveal">
+                    <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/793564837&color=24a1b0" title="MY SANGEET IS LIT by CHRISTIELOVE"></iframe>
+                    <div class="track-info"><a href="https://soundcloud.com/christieontheair" target="_blank" rel="noopener">CHRISTIELOVE</a> &middot; <a href="https://soundcloud.com/christieontheair/my-sangeet-is-lit-w-christielive" target="_blank" rel="noopener">MY SANGEET IS LIT!!! W/ @CHRISTIELIVE</a></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- ===== EVENTS ===== -->
+    <section id="events">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Upcoming Events</h2>
+                <p>Catch the next live set &mdash; you don&rsquo;t want to miss this</p>
+                <div class="accent-line"></div>
+            </div>
+            <div class="events-list">
+                <div class="event-item reveal">
+                    <div class="event-date"><div class="day">15</div><div class="month">Mar</div></div>
+                    <div class="event-info">
+                        <h4>Neon Nights Festival</h4>
+                        <p><i class="fa-solid fa-location-dot"></i> The Grand Ballroom, Los Angeles, CA</p>
+                    </div>
+                    <div class="event-action"><a href="#contact" class="btn btn-primary">Get Tickets</a></div>
+                </div>
+                <div class="event-item reveal">
+                    <div class="event-date"><div class="day">02</div><div class="month">Apr</div></div>
+                    <div class="event-info">
+                        <h4>Electric Soul Sessions</h4>
+                        <p><i class="fa-solid fa-location-dot"></i> Warehouse 21, San Francisco, CA</p>
+                    </div>
+                    <div class="event-action"><a href="#contact" class="btn btn-outline">RSVP</a></div>
+                </div>
+                <div class="event-item reveal">
+                    <div class="event-date"><div class="day">18</div><div class="month">Apr</div></div>
+                    <div class="event-info">
+                        <h4>Funk &amp; Flow Rooftop Party</h4>
+                        <p><i class="fa-solid fa-location-dot"></i> Sky Lounge, New York, NY</p>
+                    </div>
+                    <div class="event-action"><a href="#contact" class="btn btn-outline">RSVP</a></div>
+                </div>
+                <div class="event-item reveal">
+                    <div class="event-date"><div class="day">10</div><div class="month">May</div></div>
+                    <div class="event-info">
+                        <h4>Summer Kickoff Block Party</h4>
+                        <p><i class="fa-solid fa-location-dot"></i> Outdoor Stage, Miami, FL</p>
+                    </div>
+                    <div class="event-action"><a href="#contact" class="btn btn-primary">Get Tickets</a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GALLERY ===== -->
+    <section id="gallery">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Gallery</h2>
+                <p>Moments captured from behind the decks and under the lights</p>
+                <div class="accent-line"></div>
+            </div>
+            <div class="gallery-grid reveal">
+                <div class="gallery-item"><div class="gallery-icon"><i class="fa-solid fa-music"></i></div></div>
+                <div class="gallery-item"><div class="gallery-icon"><i class="fa-solid fa-microphone"></i></div></div>
+                <div class="gallery-item"><div class="gallery-icon"><i class="fa-solid fa-record-vinyl"></i></div></div>
+                <div class="gallery-item"><div class="gallery-icon"><i class="fa-solid fa-headphones-simple"></i></div></div>
+                <div class="gallery-item"><div class="gallery-icon"><i class="fa-solid fa-guitar"></i></div></div>
+                <div class="gallery-item"><div class="gallery-icon"><i class="fa-solid fa-compact-disc"></i></div></div>
+                <div class="gallery-item"><div class="gallery-icon"><i class="fa-solid fa-sliders"></i></div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2>Get in Touch</h2>
+                <p>Booking inquiries, collaborations, or just want to say hello</p>
+                <div class="accent-line"></div>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info reveal">
+                    <h3>Let&rsquo;s Create Something Amazing</h3>
+                    <p>Whether it&rsquo;s a private event, festival, or corporate function &mdash; DJ Christie brings the energy. Reach out and let&rsquo;s make your next event unforgettable.</p>
+                    <div class="contact-detail"><i class="fa-solid fa-envelope"></i><span>booking@djchristie.com</span></div>
+                    <div class="contact-detail"><i class="fa-solid fa-phone"></i><span>(555) 123-4567</span></div>
+                    <div class="contact-detail"><i class="fa-solid fa-location-dot"></i><span>Los Angeles, California</span></div>
+                    <div class="social-links">
+                        <a href="https://soundcloud.com/heartofgolddjs" target="_blank" rel="noopener" aria-label="SoundCloud"><i class="fa-brands fa-soundcloud"></i></a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://x.com" target="_blank" rel="noopener" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+                <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+                    <div class="form-row">
+                        <input type="text" placeholder="Your Name" required aria-label="Your Name">
+                        <input type="email" placeholder="Your Email" required aria-label="Your Email">
+                    </div>
+                    <input type="text" placeholder="Subject" required aria-label="Subject">
+                    <textarea placeholder="Your Message" required aria-label="Your Message"></textarea>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 DJ Christie. All Rights Reserved. Crafted with <a href="#hero"><i class="fa-solid fa-heart"></i></a></p>
+        </div>
+    </footer>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        // Mobile nav toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        function toggleNav() {
+            navToggle.classList.toggle('open');
+            navLinks.classList.toggle('open');
+        }
+        navToggle.addEventListener('click', toggleNav);
+        navToggle.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleNav(); }
+        });
+        // Close nav on link click
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navToggle.classList.remove('open');
+                navLinks.classList.remove('open');
+            });
+        });
+
+        // Sticky navbar style
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        reveals.forEach(el => revealObserver.observe(el));
+
+        // Hero particles
+        (function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const span = document.createElement('span');
+                const size = Math.random() * 4 + 2;
+                span.style.width = size + 'px';
+                span.style.height = size + 'px';
+                span.style.left = Math.random() * 100 + '%';
+                span.style.animationDuration = Math.random() * 15 + 10 + 's';
+                span.style.animationDelay = Math.random() * 15 + 's';
+                container.appendChild(span);
+            }
+        })();
+
+        // Contact form handler
+        function handleSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.textContent = 'Message Sent!';
+            btn.style.background = '#2ecc71';
+            btn.style.borderColor = '#2ecc71';
+            setTimeout(() => {
+                btn.textContent = 'Send Message';
+                btn.style.background = '';
+                btn.style.borderColor = '';
+                e.target.reset();
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
