@@ -1,86 +1,557 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dark Theme SoundCloud Embeds</title>
-    <style>
-        body {
-            background-color: #121212;
-            color: #fff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Music Artist One-Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --purple: #7e3fa0;
+      --purple-dark: #3b1d52;
+      --pink: #ff4fa3;
+      --teal: #15d0d2;
+      --black: #0f0b15;
+      --white: #ffffff;
+      --muted: #c9c2d6;
+      --light: #f5f3f8;
+    }
 
-        .player-container {
-            width: 100%;
-            max-width: 800px;
-            margin-bottom: 30px;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        iframe {
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-        }
+    body {
+      margin: 0;
+      font-family: "Montserrat", "Segoe UI", sans-serif;
+      color: var(--white);
+      background: #0a0612;
+    }
 
-        .track-info {
-            font-size: 12px;
-            color: #bbb;
-            margin-top: 8px;
-            text-align: center;
-        }
+    img {
+      max-width: 100%;
+      display: block;
+    }
 
-        a {
-            color: #ccc;
-            text-decoration: none;
-        }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    .container {
+      width: min(1200px, 92vw);
+      margin: 0 auto;
+    }
+
+    header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      padding: 24px 0;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .logo {
+      font-weight: 700;
+      letter-spacing: 0.2em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      opacity: 0.9;
+    }
+
+    .hero {
+      min-height: 86vh;
+      background: linear-gradient(110deg, rgba(126, 63, 160, 0.9), rgba(34, 10, 49, 0.9)),
+        url("https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1600&q=80") center/cover;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6));
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 140px 0 100px;
+      display: grid;
+      gap: 24px;
+      max-width: 520px;
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 4vw, 52px);
+      margin: 0;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--pink);
+      color: var(--white);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border-color: rgba(255, 255, 255, 0.5);
+      color: var(--white);
+    }
+
+    .hero-player {
+      position: relative;
+      z-index: 2;
+      margin-top: 40px;
+      padding: 20px;
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      max-width: 520px;
+    }
+
+    .play-button {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--teal);
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-light {
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .section-dark {
+      background: #181027;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title h2 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 3vw, 38px);
+    }
+
+    .section-title p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .featured-track {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      align-items: center;
+    }
+
+    .track-card {
+      border-radius: 20px;
+      background: #111111;
+      padding: 20px;
+      color: var(--white);
+    }
+
+    .track-card img {
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+
+    .track-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .shows {
+      display: grid;
+      gap: 16px;
+    }
+
+    .show-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px 20px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .show-date {
+      background: var(--pink);
+      color: var(--white);
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+    }
+
+    .about {
+      display: grid;
+      gap: 32px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      align-items: center;
+    }
+
+    .about-card {
+      background: var(--white);
+      color: var(--black);
+      padding: 32px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+    }
+
+    .video-banner {
+      background: linear-gradient(120deg, rgba(0, 0, 0, 0.7), rgba(126, 63, 160, 0.7)),
+        url("https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1600&q=80") center/cover;
+      border-radius: 24px;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .video-banner .play-button {
+      margin: 0 auto 16px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .gallery img {
+      border-radius: 16px;
+      height: 220px;
+      object-fit: cover;
+    }
+
+    .contact-grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .contact-card {
+      background: var(--white);
+      color: var(--black);
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    .contact-card h3 {
+      margin-top: 0;
+    }
+
+    .stay-in-touch {
+      text-align: center;
+      background: #0b0812;
+    }
+
+    .newsletter {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .newsletter input {
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: none;
+      min-width: 240px;
+    }
+
+    footer {
+      padding: 32px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-content {
+        padding-top: 120px;
+      }
+
+      .show-item {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
-<!-- 
-    Track 1 
-    <div class="player-container">
-        <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1712258577&color=%23ff5500&auto_play=false&visual=true"></iframe>
-        <div class="track-info"><a href="https://soundcloud.com/christieontheair" target="_blank">CHRISTIELOVE</a> · <a href="https://soundcloud.com/christieontheair/millennialelectrofunkodyssey-junglekaytranadachannel-tresapaakmore" target="_blank">MillennialElectroFunkOdyssey (Jungle+Kaytranada+Channel Tres+A.Paak+More)</a></div>
+  <header>
+    <div class="container nav">
+      <div class="logo">MUSE.</div>
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#tracks">Tracks</a>
+        <a href="#shows">Shows</a>
+        <a href="#bio">Bio</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="btn btn-outline">Shop</div>
     </div>
+  </header>
 
-   
-    <div class="player-container">
-        <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/800249719&color=%23ff5500&auto_play=false&visual=true"></iframe>
-        <div class="track-info"><a href="https://soundcloud.com/christieontheair" target="_blank">CHRISTIELOVE</a> · <a href="https://soundcloud.com/christieontheair/bay-area-slaps-yay-area" target="_blank">Bay Area Slaps - Yay Area! (and a few other tracks that made the cut!)</a></div>
+  <section id="home" class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Best Artist of the Year</h1>
+        <p>
+          A bold one-page layout for a musician or DJ. Replace the copy and images to match your
+          sister&apos;s brand and vibe.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#tracks">Listen Now</a>
+          <a class="btn btn-outline" href="#shows">Upcoming Shows</a>
+        </div>
+        <div class="hero-player">
+          <div class="play-button">▶</div>
+          <div>
+            <strong>Written in the Stars</strong>
+            <p>New single · 3:18</p>
+          </div>
+        </div>
+      </div>
     </div>
- -->
-    <!-- Track 3 -->
-    <div class="player-container">
-        <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1731400716&color=ff5500"></iframe>
-        <div class="track-info"><a href="https://soundcloud.com/heartofgolddjs" target="_blank">HeartofGoldDJs</a> · <a href="https://soundcloud.com/heartofgolddjs/turn-down-for-what" target="_blank">TURN DOWN FOR WHAT</a></div>
-    </div>
+  </section>
 
-    <!-- Track 4 -->
-    <div class="player-container">
-        <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/686779069&color=24a1b0"></iframe>
-        <div class="track-info"><a href="https://soundcloud.com/heartofgolddjs" target="_blank">HeartofGoldDJs</a> · <a href="https://soundcloud.com/heartofgolddjs/dj-christie-james-boss-chicks-and-drake" target="_blank">DJ Christie Live - Boss Chicks(and Drake)</a></div>
+  <section id="tracks" class="section section-light">
+    <div class="container">
+      <div class="section-title">
+        <h2>Written in the Stars</h2>
+        <p>Feature your top track or EP with an embedded player or cover art.</p>
+      </div>
+      <div class="featured-track">
+        <div class="track-card">
+          <img
+            src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80"
+            alt="Album cover"
+          />
+          <div class="track-info">
+            <span>Streaming everywhere</span>
+            <span>04:22</span>
+          </div>
+        </div>
+        <div>
+          <h3>Top Tracks</h3>
+          <ol>
+            <li>Written in the Stars</li>
+            <li>Midnight Echoes</li>
+            <li>City Lights</li>
+            <li>Golden Hour</li>
+            <li>Neon Dreams</li>
+          </ol>
+          <div class="hero-actions">
+            <button class="btn btn-primary">Play Album</button>
+            <button class="btn btn-outline">Add to Playlist</button>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <!-- Track 5 -->
-    <div class="player-container">
-        <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1712880003&color=ff5500"></iframe>
-        <div class="track-info"><a href="https://soundcloud.com/heartofgolddjs" target="_blank">HeartofGoldDJs</a> · <a href="https://soundcloud.com/heartofgolddjs/christies-millennialelectrofunkodyssey" target="_blank">Christie's MillennialElectroFunkOdyssey</a></div>
+  <section id="shows" class="section section-dark">
+    <div class="container">
+      <div class="section-title">
+        <h2>Upcoming Shows</h2>
+        <p>Highlight tour stops, livestreams, or pop-ups.</p>
+      </div>
+      <div class="shows">
+        <div class="show-item">
+          <div class="show-date">12<br />Jun</div>
+          <div>
+            <strong>Los Angeles Live Show</strong>
+            <p>The Regent Theatre · 8 PM</p>
+          </div>
+          <button class="btn btn-outline">Tickets</button>
+        </div>
+        <div class="show-item">
+          <div class="show-date">19<br />Jun</div>
+          <div>
+            <strong>Brooklyn Rooftop Set</strong>
+            <p>Skyline Sessions · 7 PM</p>
+          </div>
+          <button class="btn btn-outline">Tickets</button>
+        </div>
+        <div class="show-item">
+          <div class="show-date">28<br />Jun</div>
+          <div>
+            <strong>Miami Sunset Festival</strong>
+            <p>Bayfront Park · 6 PM</p>
+          </div>
+          <button class="btn btn-outline">Tickets</button>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <!-- Track 6 -->
-    <div class="player-container">
-        <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/793564837&color=24a1b0"></iframe>
-        <div class="track-info"><a href="https://soundcloud.com/christieontheair" target="_blank">CHRISTIELOVE</a> · <a href="https://soundcloud.com/christieontheair/my-sangeet-is-lit-w-christielive" target="_blank">MY SANGEET IS LIT!!! W/ @CHRISTIELIVE</a></div>
+  <section id="bio" class="section section-light">
+    <div class="container about">
+      <div class="about-card">
+        <h2>Artist Bio</h2>
+        <p>
+          Tell her story here. Share how she started, her sound, and the experience she gives her
+          audience. Keep it personal and confident.
+        </p>
+        <p>
+          Include press highlights, major collaborations, or notable achievements to build trust.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#contact">Book an Interview</a>
+          <a class="btn btn-outline" href="#contact">Management</a>
+        </div>
+      </div>
+      <img
+        src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80"
+        alt="Artist portrait"
+      />
     </div>
+  </section>
 
+  <section class="section section-dark">
+    <div class="container">
+      <div class="video-banner">
+        <div class="play-button">▶</div>
+        <h2>New Music Video</h2>
+        <p>Drop in a teaser clip or link to YouTube/Vimeo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-light">
+    <div class="container">
+      <div class="section-title">
+        <h2>Gallery</h2>
+        <p>Show the energy of her shows, shoots, and behind-the-scenes moments.</p>
+      </div>
+      <div class="gallery">
+        <img
+          src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80"
+          alt="Gallery photo"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=600&q=80"
+          alt="Gallery photo"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80"
+          alt="Gallery photo"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=600&q=80"
+          alt="Gallery photo"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="section section-light">
+    <div class="container">
+      <div class="section-title">
+        <h2>Contact Us</h2>
+        <p>Booking, management, press, and social links.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h3>Booking</h3>
+          <p>booking@sistersstudio.com</p>
+          <p>(555) 245-1812</p>
+        </div>
+        <div class="contact-card">
+          <h3>Management</h3>
+          <p>team@sistersstudio.com</p>
+          <p>(555) 388-9920</p>
+        </div>
+        <div class="contact-card">
+          <h3>Press</h3>
+          <p>press@sistersstudio.com</p>
+          <p>@sistersstudio</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section stay-in-touch">
+    <div class="container">
+      <div class="section-title">
+        <h2>Stay in Touch</h2>
+        <p>Invite fans to join the list for releases, events, and merch drops.</p>
+      </div>
+      <div class="newsletter">
+        <input type="email" placeholder="Enter your email" />
+        <button class="btn btn-primary">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">© 2024 MUSE. All rights reserved.</div>
+  </footer>
 </body>
 </html>
